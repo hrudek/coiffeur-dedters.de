@@ -1,42 +1,95 @@
 ---
-/** Team-Karte (Hochformat-Porträt 2:3, Name in Versalien, Rolle, kurzer Text). */
+/**
+ * Team-Karte: Hochformat-Porträt (2:3), darunter nur der Name.
+ * Rolle/Spezialisierungen als kleine Flags auf dem Foto.
+ * Der Text (Slot) erscheint als Overlay über dem Foto:
+ * Desktop beim Überfahren mit der Maus, mobil per Antippen, per Tastatur über den Button.
+ */
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
 interface Props {
   name: string;
-  role: string;
   image: ImageMetadata;
   alt: string;
-  /** Hervorgehobene Karte (z. B. Inhaberin) */
-  featured?: boolean;
+  /** Flags auf dem Foto, z. B. ["Inhaberin"] oder Spezialisierungen */
+  tags?: string[];
 }
 
-const { name, role, image, alt, featured = false } = Astro.props;
+const { name, image, alt, tags = [] } = Astro.props;
+const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
-<article class="group flex flex-col">
-  <div class="relative overflow-hidden rounded-sm border border-white/10 bg-anthracite">
+<article class="group flex flex-col" data-team-card>
+  <div class="relative cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-anthracite" data-team-toggle-area>
     <Image
       src={image}
       alt={alt}
       widths={[360, 540, 720]}
       sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw"
-      class="aspect-[2/3] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+      class="aspect-[2/3] w-full object-cover object-top transition duration-700 group-hover:scale-[1.03] group-hover:blur-[2px] group-data-[open]:scale-[1.03] group-data-[open]:blur-[2px]"
     />
+
     {
-      featured && (
-        <span class="absolute top-4 left-4 border border-accent-light/60 bg-night/60 px-3 py-1 font-serif text-[0.65rem] tracking-[0.25em] text-accent-light uppercase backdrop-blur">
-          {role}
-        </span>
+      tags.length > 0 && (
+        <ul class="absolute top-4 left-4 z-10 flex flex-wrap gap-2 pr-4">
+          {tags.map((tag) => (
+            <li class="border border-accent-light/60 bg-night/60 px-3 py-1 font-serif text-[0.65rem] tracking-[0.25em] text-accent-light uppercase backdrop-blur">
+              {tag}
+            </li>
+          ))}
+        </ul>
       )
     }
-  </div>
-  <div class="border-x border-b border-white/10 bg-white/[0.03] px-5 py-5">
-    <h3 class="font-serif text-lg tracking-[0.15em] text-paper uppercase">{name}</h3>
-    <p class="mt-1 text-xs tracking-[0.2em] text-silver uppercase">{role}</p>
-    <div class="mt-4 text-sm leading-relaxed text-paper/70">
-      <slot />
+
+    <!-- Overlay mit Text -->
+    <div
+      id={textId}
+      class="absolute inset-0 flex flex-col overflow-y-auto bg-gradient-to-t from-night via-night/90 to-night/70 px-6 pt-16 pb-16 text-sm leading-relaxed text-paper/85 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-data-[open]:opacity-100"
+    >
+      <div class="mt-auto"><slot /></div>
     </div>
+
+    <button
+      type="button"
+      class="absolute right-4 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-paper/40 bg-night/50 text-paper backdrop-blur transition-colors hover:border-accent-light hover:text-accent-light"
+      aria-expanded="false"
+      aria-controls={textId}
+      data-team-toggle
+    >
+      <span class="sr-only">Mehr über {name}</span>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        class="h-4 w-4 transition-transform duration-300 group-data-[open]:rotate-45"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"><path d="M12 5v14M5 12h14"></path></svg
+      >
+    </button>
   </div>
+
+  <h3 class="mt-5 text-center font-serif text-lg tracking-[0.15em] text-paper uppercase">{name}</h3>
 </article>
+
+<script>
+  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-team-card]"));
+
+  function setOpen(card: HTMLElement, open: boolean) {
+    card.toggleAttribute("data-open", open);
+    card.querySelector("[data-team-toggle]")?.setAttribute("aria-expanded", String(open));
+  }
+
+  cards.forEach((card) => {
+    // Antippen/Klicken irgendwo auf dem Foto (auch auf dem Button) schaltet um
+    card.querySelector("[data-team-toggle-area]")?.addEventListener("click", () => {
+      const open = !card.hasAttribute("data-open");
+      cards.forEach((other) => other !== card && setOpen(other, false));
+      setOpen(card, open);
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") cards.forEach((card) => setOpen(card, false));
+  });
+</script>
