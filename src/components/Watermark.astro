@@ -1,0 +1,23 @@
+---
+/**
+ * Dekoratives Wasserzeichen: vergrößerter Ausschnitt ("ff" mit langen
+ * Unterlängen) aus dem eigenen Logo, sehr hell, hinter den Inhalten.
+ */
+import logoSvg from "../assets/logo-coiffeur-dedters.svg?raw";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const svg = logoSvg
+  .replace(/\swidth="[^"]*"/, "")
+  .replace(/\sheight="[^"]*"/, "")
+  .replace(/viewBox="[^"]*"/, 'viewBox="196 -4 108 161"')
+  .replace(/role="img"\s*/, "")
+  .replace(/aria-label="[^"]*"/, 'aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet"')
+  .replace("<svg", `<svg class="h-full w-auto"`);
+---
+
+<div aria-hidden="true" class:list={["pointer-events-none absolute select-none", className]} set:html={svg} />

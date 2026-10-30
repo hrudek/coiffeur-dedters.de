@@ -1,0 +1,45 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import kopfmassage from "../../assets/salon/kopfmassage.jpg";
+import teamSepia from "../../assets/team/team-studio-sepia.jpg";
+import teamStudio from "../../assets/team/team-studio.jpg";
+import teamEmpfang from "../../assets/salon/team-empfang.jpg";
+import beratung from "../../assets/salon/beratung.jpg";
+import justineConny from "../../assets/salon/justine-conny.jpg";
+
+const tile = "h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]";
+---
+
+<section id="einblicke" class="section bg-night text-paper">
+  <div class="container-content">
+    <SectionHeading kicker="Ein Blick hinter die Kulissen" title="Einblicke" tone="dark" align="center" />
+
+    <div class="mt-14 grid grid-flow-dense auto-rows-[11rem] grid-cols-2 gap-3 sm:auto-rows-[14rem] md:grid-cols-4 md:gap-4 lg:auto-rows-[15rem]">
+      <figure class="group col-span-2 row-span-2 overflow-hidden">
+        <Image src={teamSepia} alt="Das Team im Fotostudio, in Sepia" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" class={tile} />
+      </figure>
+      <figure class="group row-span-2 overflow-hidden">
+        <Image src={kopfmassage} alt="Entspannende Kopfmassage mit Shampoo" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
+      </figure>
+      <figure class="group row-span-2 overflow-hidden">
+        <Image src={teamStudio} alt="Das Team im Studio, Justine sitzt vorne auf dem Friseurstuhl" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={`${tile} object-top`} />
+      </figure>
+      <figure class="group row-span-2 overflow-hidden">
+        <Image src={beratung} alt="Justine berät eine Kundin mit einem Pflegeprodukt" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
+      </figure>
+      <figure class="group col-span-2 row-span-2 overflow-hidden">
+        <Image src={teamEmpfang} alt="Das Team stößt im Salon vor dem Regal mit „Welcome“-Schriftzug an" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" class={tile} />
+      </figure>
+      <figure class="group row-span-2 overflow-hidden">
+        <Image src={justineConny} alt="Justine und Conny Dedters vor dem Roll-up „Gutes Aussehen ist Kopfsache“" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={`${tile} object-[50%_30%]`} />
+      </figure>
+    </div>
+
+    <p class="mt-12 text-center">
+      <a href="https://www.instagram.com/coiffeurdedters/" target="_blank" rel="noopener" class="btn btn-outline-light">
+        Mehr auf Instagram
+      </a>
+    </p>
+  </div>
+</section>

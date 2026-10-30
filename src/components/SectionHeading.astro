@@ -1,0 +1,41 @@
+---
+/** Zweistufige Überschrift: kleine gesperrte Kicker-Zeile + Serifen-Überschrift. */
+interface Props {
+  kicker?: string;
+  title: string;
+  as?: "h1" | "h2" | "h3";
+  tone?: "light" | "dark";
+  align?: "left" | "center";
+  class?: string;
+}
+
+const { kicker, title, as: Tag = "h2", tone = "light", align = "left", class: className = "" } = Astro.props;
+const dark = tone === "dark";
+---
+
+<header class:list={[align === "center" ? "text-center" : "text-left", className]}>
+  {
+    kicker && (
+      <p
+        class:list={[
+          "mb-3 font-serif text-xs tracking-[0.35em] uppercase md:text-sm",
+          dark ? "text-accent-light" : "text-accent",
+        ]}
+      >
+        {kicker}
+      </p>
+    )
+  }
+  <Tag
+    class:list={[
+      "font-serif text-3xl leading-tight tracking-wide uppercase md:text-[2.6rem]",
+      dark ? "text-paper" : "text-ink",
+    ]}
+  >
+    {title}
+  </Tag>
+  <span
+    aria-hidden="true"
+    class:list={["mt-6 block h-px w-14", align === "center" && "mx-auto", dark ? "bg-silver/50" : "bg-accent"]}
+  ></span>
+</header>

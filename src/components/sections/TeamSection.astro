@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import TeamCard from "../TeamCard.astro";
+import teamImage from "../../assets/team/team-salon.jpg";
+import justine from "../../assets/team/justine.jpg";
+import conny from "../../assets/team/conny.jpg";
+import mitarbeiterin1 from "../../assets/team/mitarbeiterin-1.jpg";
+import mitarbeiterin2 from "../../assets/team/mitarbeiterin-2.jpg";
+import mitarbeiterin3 from "../../assets/team/mitarbeiterin-3.jpg";
+---
+
+<section id="team" class="section bg-anthracite text-paper">
+  <div class="container-content">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-end">
+      <SectionHeading kicker="Wir freuen uns auf dich" title="Unser Team" tone="dark" />
+      <div class="space-y-4 leading-relaxed text-paper/75">
+        <p>
+          Bei Coiffeur Dedters bist du immer in professionellen Händen. Unser Team beherrscht nicht nur das klassische
+          Frisurenrepertoire, sondern auch die jeweils top-aktuellen Stylings der Saison. Unser Leistungsspektrum wird
+          dabei ideal durch unser Angebot an TOP Pflegeprodukten ergänzt.
+        </p>
+        <p>
+          Gerne vereinbaren wir einen unverbindlichen Beratungstermin mit dir. Unser Fachpersonal steht dir mit Rat und
+          Tat zur Seite!
+        </p>
+      </div>
+    </div>
+
+    <figure class="mt-14 overflow-hidden rounded-sm border border-white/10">
+      <Image
+        src={teamImage}
+        alt="Das Team von Coiffeur Dedters lacht gemeinsam mit Sekt im Salon"
+        widths={[640, 960, 1280, 1920]}
+        sizes="(min-width: 1280px) 72rem, 100vw"
+        class="aspect-[16/9] w-full object-cover md:aspect-[21/9] md:object-[50%_30%]"
+      />
+    </figure>
+
+    <div class="mt-16 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <TeamCard name="Justine Dedters" role="Inhaberin" image={justine} alt="Porträt von Justine Dedters" featured>
+        <p>
+          Die erfolgreiche Friseurmeisterin absolvierte nach ihrer Ausbildung verschiedene Stationen zum Thema
+          Steckfrisuren, Beauty Consulting, Backstage am Theater für Hair &amp; Make-up oder Fotoshootings, um jetzt ihr
+          Wissen und die Leidenschaft für kreative Haartechniken als Trainerin an andere deutschlandweit weiter zu geben.
+          Selber bildet sie sich regelmäßig mit großer Begeisterung auch international weiter, um ihre Kunden und
+          Kollegen immer mit neuen Ideen zu begeistern. Justine ist seit 2013 zusätzlich als Freelancerin für Londa
+          Professional im Einsatz.
+        </p>
+      </TeamCard>
+      <TeamCard name="Conny Dedters" role="Friseurmeisterin" image={conny} alt="Porträt von Conny Dedters">
+        <p>
+          Conny ist ständig in Bewegung, diszipliniert, fleißig, ewig im Einsatz für die Schönheit – dabei jedoch
+          bescheiden. Vor ihrem Willen zum „perfekten Kopf“ ist niemand sicher: Jung, alt, berühmt, unbekannt, weiblich,
+          männlich. Conny glaubt auch nach mehr als 40 Jahren mit Schere und Kamm noch an das Schöne in jedem Menschen.
+          Inzwischen hat sie mehr als 200 000 Köpfe frisiert.
+        </p>
+      </TeamCard>
+      <TeamCard name="Vorname Nachname" role="Friseurin" image={mitarbeiterin1} alt="Porträt einer Mitarbeiterin">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      </TeamCard>
+      <TeamCard name="Vorname Nachname" role="Friseurin" image={mitarbeiterin2} alt="Porträt einer Mitarbeiterin">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      </TeamCard>
+      <TeamCard name="Vorname Nachname" role="Friseurin" image={mitarbeiterin3} alt="Porträt einer Mitarbeiterin">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore.</p>
+      </TeamCard>
+    </div>
+  </div>
+</section>

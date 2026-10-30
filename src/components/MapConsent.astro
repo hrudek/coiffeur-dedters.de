@@ -1,0 +1,40 @@
+---
+/**
+ * Google-Maps-Karte mit Klick-Schutz. Vor dem Klick werden keine Daten an
+ * Google übertragen; die Embed-URL steht nur im data-Attribut (nicht als src).
+ * Die Zustimmung wird nicht gespeichert.
+ */
+const embed =
+  "https://www.google.com/maps?q=Coiffeur+Dedters,+Kurt-Schumacher-Allee+6,+47445+Moers&output=embed";
+---
+
+<div class="relative aspect-[4/3] w-full overflow-hidden border border-line bg-mist md:aspect-auto md:h-full md:min-h-[26rem]" data-map>
+  <div class="absolute inset-0 flex flex-col items-center justify-center gap-5 p-8 text-center" data-map-placeholder>
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="h-10 w-10 text-stone" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" /><path d="M9 4v14M15 6v14" />
+    </svg>
+    <p class="max-w-sm text-sm leading-relaxed text-stone">
+      Beim Laden der Karte werden Daten (u. a. deine IP-Adresse) an Google übertragen. Mehr dazu in unserer{" "}
+      <a href="/datenschutz#google-maps" class="text-ink underline decoration-line underline-offset-4 hover:decoration-accent">Datenschutzerklärung</a>.
+    </p>
+    <button type="button" class="btn btn-dark" data-map-load data-src={embed}>Karte laden</button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-map]").forEach((wrap) => {
+    const button = wrap.querySelector<HTMLButtonElement>("[data-map-load]");
+    button?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = button.dataset.src ?? "";
+      iframe.title = "Karte: Coiffeur Dedters, Kurt-Schumacher-Allee 6, 47445 Moers";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.className = "absolute inset-0 h-full w-full border-0";
+      iframe.setAttribute("allowfullscreen", "");
+      wrap.querySelector("[data-map-placeholder]")?.remove();
+      wrap.appendChild(iframe);
+      iframe.focus();
+    });
+  });
+</script>

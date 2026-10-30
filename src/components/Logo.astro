@@ -1,0 +1,22 @@
+---
+/**
+ * Salon-Logo als Inline-SVG. Übernimmt die Textfarbe (currentColor),
+ * z. B. class="text-ink" auf hellem, class="text-paper" auf dunklem Grund.
+ */
+import logoSvg from "../assets/logo-coiffeur-dedters.svg?raw";
+
+interface Props {
+  class?: string;
+  label?: string;
+}
+
+const { class: className = "", label = "Coiffeur Dedters" } = Astro.props;
+
+const svg = logoSvg
+  .replace(/\swidth="[^"]*"/, "")
+  .replace(/\sheight="[^"]*"/, "")
+  .replace(/aria-label="[^"]*"/, `aria-label="${label}"`)
+  .replace("<svg", `<svg class="block h-auto w-full ${className}"`);
+---
+
+<Fragment set:html={svg} />

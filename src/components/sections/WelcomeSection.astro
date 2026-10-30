@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+import welcomeImage from "../../assets/salon/justine-conny.jpg";
+import SectionHeading from "../SectionHeading.astro";
+import Watermark from "../Watermark.astro";
+---
+
+<section id="salon" class="relative overflow-hidden bg-paper">
+  <Watermark class="hidden lg:block -top-24 -left-24 h-[150%] text-ink/[0.035]" />
+  <div class="relative grid lg:grid-cols-[1fr_minmax(0,42%)]">
+    <div class="section flex items-center">
+      <div class="max-w-xl lg:ml-auto lg:mr-8 xl:mr-16">
+        <SectionHeading kicker="Herzlich willkommen" title="In unserem Salon" class="mb-10" />
+        <div class="prose-text text-ink/80">
+          <p class="text-lg text-ink">Wir sind die innovativen Hairstylisten im Stadtteil Moers Rheinkamper Ring.</p>
+          <p>
+            Betrachte unser Team als Partner, der dir helfen wird, dein perfektes Styling zu finden. Die leidenschaftliche
+            Begeisterung für unseren Beruf möchten wir dich spüren lassen.
+          </p>
+          <p>
+            Wir als Team bilden uns national und international fort, denn in unserem Handwerk offenbart sich die
+            Möglichkeit immer neue Wege zu beschreiten, mit Form und Farbe zu spielen und innovative Techniken anzuwenden.
+          </p>
+          <p>
+            Gegründet von Wolfgang Dedters, heute geführt von Justine Dedters – ein Familienbetrieb mit Liebe zum Handwerk.
+          </p>
+          <p class="font-serif tracking-wider text-ink">Gerne begrüßen wir dich in unserem Salon – wir freuen uns auf dich.</p>
+        </div>
+      </div>
+    </div>
+    <div class="relative min-h-[28rem] lg:min-h-0">
+      <Image
+        src={welcomeImage}
+        alt="Justine und Conny Dedters stoßen im Salon an"
+        widths={[480, 720, 1067]}
+        sizes="(min-width: 1024px) 42vw, 100vw"
+        class="absolute inset-0 h-full w-full object-cover object-[50%_35%]"
+      />
+    </div>
+  </div>
+</section>

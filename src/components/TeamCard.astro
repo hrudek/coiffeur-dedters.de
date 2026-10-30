@@ -1,0 +1,42 @@
+---
+/** Team-Karte (Hochformat-Porträt 2:3, Name in Versalien, Rolle, kurzer Text). */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  name: string;
+  role: string;
+  image: ImageMetadata;
+  alt: string;
+  /** Hervorgehobene Karte (z. B. Inhaberin) */
+  featured?: boolean;
+}
+
+const { name, role, image, alt, featured = false } = Astro.props;
+---
+
+<article class="group flex flex-col">
+  <div class="relative overflow-hidden rounded-sm border border-white/10 bg-anthracite">
+    <Image
+      src={image}
+      alt={alt}
+      widths={[360, 540, 720]}
+      sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw"
+      class="aspect-[2/3] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+    />
+    {
+      featured && (
+        <span class="absolute top-4 left-4 border border-accent-light/60 bg-night/60 px-3 py-1 font-serif text-[0.65rem] tracking-[0.25em] text-accent-light uppercase backdrop-blur">
+          {role}
+        </span>
+      )
+    }
+  </div>
+  <div class="border-x border-b border-white/10 bg-white/[0.03] px-5 py-5">
+    <h3 class="font-serif text-lg tracking-[0.15em] text-paper uppercase">{name}</h3>
+    <p class="mt-1 text-xs tracking-[0.2em] text-silver uppercase">{role}</p>
+    <div class="mt-4 text-sm leading-relaxed text-paper/70">
+      <slot />
+    </div>
+  </div>
+</article>

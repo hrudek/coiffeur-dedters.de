@@ -1,0 +1,76 @@
+---
+/**
+ * Kontaktformular über Netlify Forms. Das Formular steht statisch im HTML,
+ * Netlify erkennt es beim Deploy (data-netlify, name="kontakt").
+ * Empfängeradresse wird nur in den Netlify-Formulareinstellungen gesetzt.
+ */
+const field =
+  "mt-2 block w-full border-0 border-b border-line bg-transparent px-0 py-2.5 text-base text-ink placeholder:text-stone/60 transition-colors focus:border-ink focus:ring-0 focus:outline-none";
+const label = "block font-serif text-xs tracking-[0.2em] uppercase";
+---
+
+<form
+  name="kontakt"
+  method="POST"
+  action="/danke"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="space-y-8"
+>
+  <input type="hidden" name="form-name" value="kontakt" />
+  <p class="hidden" aria-hidden="true">
+    <label>Bitte nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="grid gap-8 sm:grid-cols-2">
+    <div>
+      <label for="kf-name" class={label}>Name <span class="text-accent" aria-hidden="true">*</span></label>
+      <input id="kf-name" name="name" type="text" autocomplete="name" required class={field} />
+    </div>
+    <div>
+      <label for="kf-telefon" class={label}>Telefon <span class="normal-case tracking-normal text-stone">(optional)</span></label>
+      <input id="kf-telefon" name="telefon" type="tel" autocomplete="tel" class={field} />
+    </div>
+  </div>
+
+  <div>
+    <label for="kf-email" class={label}>E-Mail <span class="text-accent" aria-hidden="true">*</span></label>
+    <input id="kf-email" name="email" type="email" autocomplete="email" required class={field} />
+  </div>
+
+  <div>
+    <label for="kf-nachricht" class={label}>Nachricht <span class="text-accent" aria-hidden="true">*</span></label>
+    <textarea
+      id="kf-nachricht"
+      name="nachricht"
+      rows="5"
+      required
+      placeholder="Wobei dürfen wir dir helfen? Gern auch mit Wunschtermin."
+      class={`${field} resize-y`}></textarea>
+  </div>
+
+  <div class="flex items-start gap-3">
+    <input
+      id="kf-datenschutz"
+      name="datenschutz"
+      type="checkbox"
+      value="akzeptiert"
+      required
+      class="mt-1 h-4 w-4 shrink-0 accent-ink"
+    />
+    <label for="kf-datenschutz" class="text-sm leading-relaxed text-stone">
+      Ich habe die{" "}
+      <a href="/datenschutz#kontaktformular" class="text-ink underline decoration-line underline-offset-4 hover:decoration-accent">Datenschutzerklärung</a>{" "}
+      gelesen und bin einverstanden, dass meine Angaben zur Beantwortung meiner Anfrage verarbeitet werden.
+      <span class="text-accent" aria-hidden="true">*</span>
+    </label>
+  </div>
+
+  <div class="flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm text-stone">
+      <span class="text-accent" aria-hidden="true">*</span> Pflichtfeld. Terminwünsche sind erst nach unserer Rückmeldung
+      verbindlich.
+    </p>
+    <button type="submit" class="btn btn-dark shrink-0">Nachricht senden</button>
+  </div>
+</form>

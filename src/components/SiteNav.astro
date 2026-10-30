@@ -1,0 +1,187 @@
+---
+/**
+ * Navigation: feste Seitenleiste links (Desktop ab lg) und schmale Kopfzeile
+ * mit Vollbild-Menü (mobil). Austauschbar: Die Abschnitte kennen diese
+ * Komponente nicht, nur die Anker-IDs.
+ *
+ * Links zeigen auf "/#abschnitt" – funktioniert auf der Startseite und auf
+ * Unterseiten. Für spätere Unterseiten einfach href auf "/team" usw. ändern.
+ */
+import Logo from "./Logo.astro";
+
+const items = [
+  { href: "/#salon", label: "Salon" },
+  { href: "/#team", label: "Team" },
+  { href: "/#leistungen", label: "Leistungen" },
+  { href: "/#einblicke", label: "Einblicke" },
+  { href: "/#oeffnungszeiten", label: "Öffnungszeiten" },
+  { href: "/#produkte", label: "Produkte" },
+  { href: "/#kontakt", label: "Kontakt" },
+  { href: "/#anfahrt", label: "Anfahrt" },
+];
+---
+
+<!-- Desktop: Seitenleiste -->
+<aside
+  class="fixed inset-y-0 left-0 z-40 hidden w-sidebar flex-col border-r border-white/5 bg-night text-paper lg:flex"
+  aria-label="Hauptnavigation"
+>
+  <a href="/#start" class="block px-8 pt-10 pb-9 text-paper transition-colors hover:text-accent-light">
+    <span class="sr-only">Zur Startseite</span>
+    <Logo class="mx-auto max-w-[11rem]" />
+  </a>
+
+  <nav class="flex-1 overflow-y-auto">
+    <ul class="border-t border-white/10">
+      {
+        items.map((item) => (
+          <li class="border-b border-white/10">
+            <a
+              href={item.href}
+              data-nav-link
+              class="relative block px-8 py-3.5 font-serif text-[0.8rem] tracking-[0.2em] text-paper/75 uppercase transition-colors hover:bg-white/5 hover:text-paper data-[active]:bg-white/[0.07] data-[active]:text-paper"
+            >
+              <span
+                aria-hidden="true"
+                class="absolute inset-y-0 left-0 w-0.5 scale-y-0 bg-accent transition-transform duration-300 [[data-active]>&]:scale-y-100"
+              />
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="space-y-3 px-8 py-8 text-sm text-paper/60">
+    <a href="tel:+49284143970" class="block tracking-wide transition-colors hover:text-accent-light">
+      +49 (0) 2841 43970
+    </a>
+    <div class="flex gap-5">
+      <a
+        href="https://www.instagram.com/coiffeurdedters/"
+        class="transition-colors hover:text-accent-light"
+        rel="noopener"
+        target="_blank"
+      >
+        Instagram
+      </a>
+      <a
+        href="https://facebook.com/coiffeur-dedters"
+        class="transition-colors hover:text-accent-light"
+        rel="noopener"
+        target="_blank"
+      >
+        Facebook
+      </a>
+    </div>
+  </div>
+</aside>
+
+<!-- Mobil/Tablet: Kopfzeile -->
+<header
+  class="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b border-white/10 bg-night/95 px-5 text-paper backdrop-blur lg:hidden"
+>
+  <a href="/#start" class="block w-40 text-paper">
+    <span class="sr-only">Zur Startseite</span>
+    <Logo />
+  </a>
+  <button
+    type="button"
+    id="menu-toggle"
+    class="-mr-2 flex h-11 w-11 items-center justify-center"
+    aria-controls="mobile-menu"
+    aria-expanded="false"
+  >
+    <span class="sr-only" data-menu-label>Menü öffnen</span>
+    <span aria-hidden="true" class="relative block h-3 w-6">
+      <span
+        class="absolute top-0 left-0 h-px w-6 bg-current transition-transform duration-300 [[aria-expanded=true]_&]:translate-y-1.5 [[aria-expanded=true]_&]:rotate-45"
+      ></span>
+      <span
+        class="absolute bottom-0 left-0 h-px w-6 bg-current transition-transform duration-300 [[aria-expanded=true]_&]:-translate-y-1.5 [[aria-expanded=true]_&]:-rotate-45"
+      ></span>
+    </span>
+  </button>
+</header>
+
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-night px-8 pt-24 pb-10 text-paper lg:hidden"
+  hidden
+>
+  <nav aria-label="Hauptnavigation (mobil)">
+    <ul>
+      {
+        items.map((item) => (
+          <li class="border-b border-white/10">
+            <a
+              href={item.href}
+              data-nav-link
+              data-menu-close
+              class="block py-4 font-serif text-lg tracking-[0.18em] text-paper/80 uppercase transition-colors hover:text-paper data-[active]:text-accent-light"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="mt-10 space-y-2 text-paper/70">
+    <a href="tel:+49284143970" class="block">+49 (0) 2841 43970</a>
+    <a href="mailto:coiffeur-dedters@t-online.de" class="block">coiffeur-dedters@t-online.de</a>
+  </div>
+</div>
+
+<script>
+  // Mobiles Menü
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const label = toggle?.querySelector("[data-menu-label]");
+
+  function setOpen(open: boolean) {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    menu.hidden = !open;
+    document.documentElement.classList.toggle("overflow-hidden", open);
+    if (label) label.textContent = open ? "Menü schließen" : "Menü öffnen";
+  }
+
+  toggle?.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+  menu?.querySelectorAll("[data-menu-close]").forEach((el) => el.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && toggle?.getAttribute("aria-expanded") === "true") {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  window.matchMedia("(min-width: 64rem)").addEventListener("change", (e) => e.matches && setOpen(false));
+
+  // Scrollspy: aktiven Abschnitt hervorheben (nur auf Seiten, die die Abschnitte enthalten)
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"));
+  const ids = [...new Set(links.map((a) => a.hash.slice(1)))];
+  const sections = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+
+  if (sections.length) {
+    const visible = new Map<string, boolean>();
+    const setActive = (id: string | null) => {
+      links.forEach((a) => {
+        const active = a.hash.slice(1) === id;
+        a.toggleAttribute("data-active", active);
+        if (active) a.setAttribute("aria-current", "location");
+        else a.removeAttribute("aria-current");
+      });
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => visible.set(entry.target.id, entry.isIntersecting));
+        // Letzter sichtbarer Abschnitt in Dokumentreihenfolge gewinnt
+        const current = ids.filter((id) => visible.get(id)).pop() ?? null;
+        setActive(current);
+      },
+      { rootMargin: "-20% 0px -75% 0px" },
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+</script>

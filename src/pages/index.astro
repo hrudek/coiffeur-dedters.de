@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSection from "../components/sections/HeroSection.astro";
+import WelcomeSection from "../components/sections/WelcomeSection.astro";
+import TeamSection from "../components/sections/TeamSection.astro";
+import ServicesSection from "../components/sections/ServicesSection.astro";
+import GallerySection from "../components/sections/GallerySection.astro";
+import OpeningHoursSection from "../components/sections/OpeningHoursSection.astro";
+import ProductsSection from "../components/sections/ProductsSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
+import DirectionsSection from "../components/sections/DirectionsSection.astro";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  name: "Coiffeur Dedters",
+  slogan: "Gutes Aussehen ist Kopfsache",
+  url: "https://coiffeur-dedters.de/",
+  telephone: "+49 2841 43970",
+  faxNumber: "+49 2841 400178",
+  email: "coiffeur-dedters@t-online.de",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Kurt-Schumacher-Allee 6",
+    postalCode: "47445",
+    addressLocality: "Moers",
+    addressCountry: "DE",
+  },
+  founder: { "@type": "Person", name: "Wolfgang Dedters" },
+  employee: { "@type": "Person", name: "Justine Dedters", jobTitle: "Inhaberin, Friseurmeisterin" },
+  sameAs: ["https://www.instagram.com/coiffeurdedters/", "https://facebook.com/coiffeur-dedters"],
+  priceRange: "€€",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Leistungen",
+    itemListElement: [
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Balayage" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "AirTouch" } },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Damen: Waschen, schneiden, föhnen" },
+        priceSpecification: { "@type": "PriceSpecification", minPrice: 52.5, priceCurrency: "EUR" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Herren: Waschen, schneiden, föhnen" },
+        priceSpecification: { "@type": "PriceSpecification", minPrice: 31.5, priceCurrency: "EUR" },
+      },
+    ],
+  },
+};
+---
+
+<BaseLayout>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <HeroSection />
+  <WelcomeSection />
+  <TeamSection />
+  <ServicesSection />
+  <GallerySection />
+  <OpeningHoursSection />
+  <ProductsSection />
+  <ContactSection />
+  <DirectionsSection />
+</BaseLayout>

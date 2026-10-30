@@ -1,0 +1,92 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import HighlightCard from "../HighlightCard.astro";
+import PriceList from "../PriceList.astro";
+import PriceRow from "../PriceRow.astro";
+import balayageImage from "../../assets/team/mitarbeiterin-1.jpg";
+import airtouchImage from "../../assets/salon/foehnen.jpg";
+import serviceImage from "../../assets/salon/haarwaesche.jpg";
+---
+
+<section id="leistungen" class="section bg-paper">
+  <div class="container-content">
+    <SectionHeading kicker="Was wir für dich tun" title="Leistungen & Preise" />
+
+    <!-- Highlights: Balayage & AirTouch -->
+    <div id="balayage-airtouch" class="mt-14 grid gap-6 md:grid-cols-2">
+      <HighlightCard
+        kicker="Unsere Spezialität"
+        title="Balayage"
+        image={balayageImage}
+        alt="Lange, mehrfarbig blonde Wellen"
+        imagePosition="50% 25%"
+        cta="Termin anfragen"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sanfte, natürliche Farbverläufe, frei Hand gemalt –
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </HighlightCard>
+      <HighlightCard
+        kicker="Unsere Spezialität"
+        title="AirTouch"
+        image={airtouchImage}
+        alt="Föhnen im Salon, im Spiegel gesehen"
+        imagePosition="50% 40%"
+        cta="Beratung anfragen"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Weiche Übergänge und ein strahlendes Ergebnis – ut enim
+          ad minim veniam, quis nostrud exercitation ullamco.
+        </p>
+      </HighlightCard>
+    </div>
+
+    <!-- Preisliste -->
+    <div class="mt-24 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-20">
+      <div>
+        <p class="max-w-2xl leading-relaxed text-ink/80">
+          Hier findest du unsere aktuelle Preisliste. Du hast spezielle Wünsche oder Fragen? Kein Problem, wir sind für
+          dich da! Schreib uns einfach eine E-Mail, oder, was noch besser ist: Schau bei uns vorbei. Wir freuen uns auf
+          deinen Besuch!
+        </p>
+
+        <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-x-12">
+          <PriceList title="Damen">
+            <PriceRow service="Waschen, schneiden, föhnen" price="ab 52,50 €" />
+            <PriceRow service="Farbe inkl. Pflege" price="ab 56,00 €" />
+            <PriceRow service="Waschen, föhnen" price="ab 26,50 €" />
+            <PriceRow service="Dauerwelle inkl. Pflege" price="ab 71,00 €" />
+          </PriceList>
+          <PriceList title="Farbe & Techniken">
+            <PriceRow service="Balayage" price="auf Anfrage" />
+            <PriceRow service="AirTouch" price="auf Anfrage" />
+          </PriceList>
+          <PriceList title="Kosmetik">
+            <PriceRow service="Augenbrauen zupfen" price="ab 5,50 €" />
+            <PriceRow service="Augenbrauen färben" price="10,00 €" />
+            <PriceRow service="Wimpern färben" price="10,00 €" />
+          </PriceList>
+          <PriceList title="Herren">
+            <PriceRow service="Waschen, schneiden, föhnen" price="ab 31,50 €" />
+          </PriceList>
+        </div>
+
+        <p class="mt-12 border-l-2 border-accent pl-5 font-serif tracking-wider">
+          Frag uns – wir sagen dir vorher, was du zahlst!
+        </p>
+      </div>
+
+      <figure class="relative hidden lg:block">
+        <Image
+          src={serviceImage}
+          alt="Eine Mitarbeiterin wäscht einer Kundin die Haare"
+          widths={[400, 700]}
+          sizes="22rem"
+          class="sticky top-12 aspect-[2/3] w-full object-cover"
+        />
+      </figure>
+    </div>
+  </div>
+</section>

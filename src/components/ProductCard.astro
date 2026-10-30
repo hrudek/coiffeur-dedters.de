@@ -1,0 +1,33 @@
+---
+/** Produkt-Karte. Ohne Bild wird eine neutrale graue Fläche gezeigt. */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  name: string;
+  image?: ImageMetadata;
+  alt?: string;
+}
+
+const { name, image, alt = "" } = Astro.props;
+---
+
+<article class="flex flex-col border border-white/10 bg-white/[0.03]">
+  {
+    image ? (
+      <Image src={image} alt={alt} widths={[320, 480]} sizes="(min-width: 1024px) 18rem, 45vw" class="aspect-square w-full object-cover" />
+    ) : (
+      <div class="flex aspect-square w-full items-center justify-center bg-gradient-to-b from-zinc-700/40 to-zinc-800/40" aria-hidden="true">
+        <svg viewBox="0 0 40 80" class="h-24 w-auto text-silver/30" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="12" y="2" width="16" height="10" rx="1" />
+          <path d="M14 12v6c-6 3-10 7-10 14v42a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4V32c0-7-4-11-10-14v-6" />
+          <path d="M4 42h32M4 64h32" />
+        </svg>
+      </div>
+    )
+  }
+  <div class="flex-1 p-5">
+    <h3 class="font-serif text-base tracking-[0.15em] text-paper uppercase">{name}</h3>
+    <p class="mt-2 text-sm leading-relaxed text-paper/65"><slot /></p>
+  </div>
+</article>

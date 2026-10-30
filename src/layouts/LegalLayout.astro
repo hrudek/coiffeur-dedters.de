@@ -1,0 +1,25 @@
+---
+/** Layout für Langtext-Seiten (Impressum, Datenschutz, AGB, Danke). */
+import BaseLayout from "./BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+
+interface Props {
+  title: string;
+  kicker?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, kicker = "Coiffeur Dedters", description, noindex } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <section class="section">
+    <div class="container-content">
+      <SectionHeading as="h1" kicker={kicker} title={title} class="mb-12" />
+      <div class="legal">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

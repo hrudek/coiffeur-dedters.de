@@ -1,0 +1,40 @@
+---
+import SectionHeading from "../SectionHeading.astro";
+import MapConsent from "../MapConsent.astro";
+---
+
+<section id="anfahrt" class="section bg-mist">
+  <div class="container-content">
+    <SectionHeading kicker="So findest du uns" title="Dein Weg zu uns" />
+
+    <div class="mt-14 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+      <div class="flex flex-col gap-8">
+        <!-- Ladenfront: Platzhalterbild der alten Seite (per URL, nicht im Projekt) -->
+        <img
+          src="https://a.storyblok.com/f/231075/950x450/271589a066/team.jpg"
+          alt="Ladenfront von Coiffeur Dedters mit Markise"
+          width="950"
+          height="450"
+          loading="lazy"
+          decoding="async"
+          class="aspect-[95/45] w-full object-cover"
+        />
+        <div>
+          <address class="font-serif text-lg leading-relaxed tracking-wider not-italic">
+            Coiffeur Dedters<br />Kurt-Schumacher-Allee 6<br />47445 Moers
+          </address>
+          <p class="mt-3 text-sm text-stone">Im Stadtteil Moers Rheinkamper Ring.</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Coiffeur+Dedters,+Kurt-Schumacher-Allee+6,+47445+Moers"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-dark mt-8"
+          >
+            Route in Google Maps öffnen
+          </a>
+        </div>
+      </div>
+      <MapConsent />
+    </div>
+  </div>
+</section>

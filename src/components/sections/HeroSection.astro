@@ -1,0 +1,58 @@
+---
+import { Picture } from "astro:assets";
+import heroImage from "../../assets/hero-justine.jpg";
+import Logo from "../Logo.astro";
+---
+
+<section id="start" class="relative isolate flex min-h-[calc(100svh-4rem)] items-end overflow-hidden bg-night text-paper lg:min-h-svh lg:items-center">
+  <!-- Foto: mobil vollflächig, ab lg rechts im Hochformat, weich in den dunklen Grund übergehend -->
+  <div class="absolute inset-0 -z-10 lg:left-auto lg:w-[58%]">
+    <Picture
+      src={heroImage}
+      formats={["avif", "webp"]}
+      widths={[640, 900, 1067]}
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      alt="Justine Dedters, Inhaberin von Coiffeur Dedters, im Salon"
+      loading="eager"
+      fetchpriority="high"
+      class="h-full w-full object-cover object-[45%_20%]"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-night via-night/70 to-night/20 lg:bg-gradient-to-r lg:from-night lg:via-night/30 lg:to-transparent"></div>
+    <div class="absolute inset-0 hidden bg-gradient-to-t from-night/60 to-transparent to-40% lg:block"></div>
+  </div>
+
+  <div class="w-full px-6 pt-40 pb-16 sm:px-10 lg:px-16 lg:py-24 xl:px-24">
+    <div class="max-w-xl">
+      <p class="mb-6 font-serif text-xs tracking-[0.4em] text-accent-light uppercase sm:text-sm">Gutes Aussehen ist Kopfsache</p>
+      <h1 class="w-full max-w-[34rem] text-paper">
+        <Logo label="Coiffeur Dedters" />
+      </h1>
+      <p class="mt-8 font-serif text-lg tracking-[0.18em] text-paper uppercase sm:text-xl">
+        Spezialistinnen für Balayage &amp; AirTouch
+      </p>
+      <p class="mt-5 max-w-md leading-relaxed text-paper/75">
+        Dein Friseursalon in Moers. Lorem ipsum dolor sit amet, consectetur adipiscing elit – wir freuen uns auf
+        dich.
+      </p>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+        <a href="#kontakt" class="btn btn-light">Termin anfragen</a>
+        <a href="tel:+49284143970" class="btn btn-outline-light">
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5"
+            ><path
+              d="M4.5 3.75h3l1.5 4.5-2.25 1.5a12 12 0 0 0 7.5 7.5l1.5-2.25 4.5 1.5v3a2.25 2.25 0 0 1-2.25 2.25A17.25 17.25 0 0 1 2.25 6 2.25 2.25 0 0 1 4.5 3.75Z"
+            ></path></svg
+          >
+          02841 43970
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <a
+    href="#salon"
+    class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-[0.65rem] tracking-[0.35em] text-paper/50 uppercase transition-colors hover:text-paper lg:flex"
+  >
+    Entdecken
+    <span aria-hidden="true" class="block h-10 w-px bg-gradient-to-b from-paper/60 to-transparent"></span>
+  </a>
+</section>

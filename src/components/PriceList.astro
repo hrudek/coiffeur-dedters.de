@@ -1,0 +1,20 @@
+---
+/** Preisgruppe mit Überschrift; enthält PriceRow-Einträge im Slot. */
+interface Props {
+  title: string;
+  note?: string;
+}
+
+const { title, note } = Astro.props;
+---
+
+<div class="break-inside-avoid">
+  <h3 class="mb-2 flex items-baseline gap-4 font-serif text-lg tracking-[0.2em] uppercase">
+    {title}
+    <span aria-hidden="true" class="h-px flex-1 translate-y-[-0.3em] bg-accent/60"></span>
+  </h3>
+  {note && <p class="mb-2 text-sm text-stone">{note}</p>}
+  <dl class="divide-y divide-line">
+    <slot />
+  </dl>
+</div>

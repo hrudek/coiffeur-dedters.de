@@ -1,0 +1,47 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Alte Adressen der bisherigen Webseite auf die Abschnitte der Startseite leiten
+[[redirects]]
+  from = "/unser-team"
+  to = "/#team"
+  status = 301
+
+[[redirects]]
+  from = "/preise"
+  to = "/#leistungen"
+  status = 301
+
+[[redirects]]
+  from = "/kontakt"
+  to = "/#kontakt"
+  status = 301
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+# Sicherheits-Header für alle Seiten
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+# Von Astro erzeugte Dateien haben einen Hash im Namen → dauerhaft cachen
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

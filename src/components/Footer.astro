@@ -1,0 +1,71 @@
+---
+import Logo from "./Logo.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-night px-6 pt-20 pb-10 text-paper/70 sm:px-10 lg:px-16">
+  <div class="container-content">
+    <div class="flex flex-col items-start gap-6 border-b border-white/10 pb-12 md:flex-row md:items-end md:justify-between">
+      <a href="/#start" class="block w-56 text-paper transition-colors hover:text-accent-light">
+        <span class="sr-only">Zur Startseite</span>
+        <Logo />
+      </a>
+      <p class="font-serif text-sm tracking-[0.3em] text-accent-light uppercase">Gutes Aussehen ist Kopfsache</p>
+    </div>
+
+    <div class="grid gap-12 py-12 sm:grid-cols-2 md:grid-cols-3">
+      <div>
+        <h2 class="mb-5 font-serif text-sm tracking-[0.25em] text-paper uppercase">Kontakt</h2>
+        <address class="space-y-1 leading-relaxed not-italic">
+          <p>Coiffeur Dedters</p>
+          <p>Kurt-Schumacher-Allee 6</p>
+          <p>47445 Moers</p>
+          <p class="pt-3">
+            <a href="tel:+49284143970" class="transition-colors hover:text-accent-light">Tel. +49 (0) 2841 43970</a>
+          </p>
+          <p>
+            <a href="mailto:coiffeur-dedters@t-online.de" class="transition-colors hover:text-accent-light"
+              >coiffeur-dedters@t-online.de</a
+            >
+          </p>
+        </address>
+      </div>
+
+      <div>
+        <h2 class="mb-5 font-serif text-sm tracking-[0.25em] text-paper uppercase">Folge uns</h2>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://www.instagram.com/coiffeurdedters/"
+              target="_blank"
+              rel="noopener"
+              class="transition-colors hover:text-accent-light">Instagram</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://facebook.com/coiffeur-dedters"
+              target="_blank"
+              rel="noopener"
+              class="transition-colors hover:text-accent-light">Facebook</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="mb-5 font-serif text-sm tracking-[0.25em] text-paper uppercase">Rechtliches</h2>
+        <ul class="space-y-2">
+          <li><a href="/impressum" class="transition-colors hover:text-accent-light">Impressum</a></li>
+          <li><a href="/datenschutz" class="transition-colors hover:text-accent-light">Datenschutz</a></li>
+          <li><a href="/agb" class="transition-colors hover:text-accent-light">AGB</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="border-t border-white/10 pt-8 text-xs tracking-wide text-paper/40">
+      © {year} Coiffeur Dedters · Moers
+    </p>
+  </div>
+</footer>

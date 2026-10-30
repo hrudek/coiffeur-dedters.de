@@ -1,0 +1,60 @@
+# Build output
+dist/
+
+# Astro generated types
+.astro/
+
+# Dependencies
+node_modules/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Package manager caches
+.pnpm-store/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Deployment / platform folders
+.vercel/
+.netlify/
+.wrangler/
+
+# Caches
+.cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Editors / IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local scratch folder (folder and all contents)
+tmp/
+
+# Abgelegte Dateien vom Nutzer (Bilder werden beim Einsetzen nach src/assets/ verschoben)
+.ovis/

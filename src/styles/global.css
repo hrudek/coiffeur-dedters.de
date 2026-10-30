@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@import "@fontsource/cinzel/latin-400.css";
+@import "@fontsource/cinzel/latin-500.css";
+@import "@fontsource/cinzel/latin-600.css";
+@import "@fontsource/lato/latin-300.css";
+@import "@fontsource/lato/latin-400.css";
+@import "@fontsource/lato/latin-400-italic.css";
+@import "@fontsource/lato/latin-700.css";
+
+@theme {
+  /* Schriften */
+  --font-serif: "Cinzel", ui-serif, Georgia, serif;
+  --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
+
+  /* Farben */
+  --color-paper: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-mist: #f4f4f5;
+  --color-stone: #71717a;
+  --color-line: #d4d4d8;
+  --color-silver: #c0c0c0;
+  --color-anthracite: #18181b;
+  --color-night: #111111;
+
+  /* Dezenter Farbakzent – mit dieser einen Zeile tauschen bzw. entfernen */
+  --color-accent: #b8a07e;
+  --color-accent-light: #d9c8ad;
+
+  /* Breite der Seitenleiste (Desktop) */
+  --spacing-sidebar: 15rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-weight: 400;
+  }
+
+  /* Abstand für Anker-Sprünge (mobile Kopfzeile) */
+  [id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    [id] {
+      scroll-margin-top: 0;
+    }
+  }
+
+  ::selection {
+    @apply bg-accent-light text-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Abschnitt-Rahmen */
+  .section {
+    @apply relative px-6 py-20 sm:px-10 md:py-28 lg:px-16;
+  }
+
+  .container-content {
+    @apply mx-auto w-full max-w-6xl;
+  }
+
+  /* Buttons: grundsätzlich Schwarz/Weiß */
+  .btn {
+    @apply inline-flex items-center justify-center gap-3 border px-7 py-3.5 font-serif text-sm tracking-[0.18em] uppercase transition-colors duration-300;
+  }
+
+  .btn-dark {
+    @apply border-ink bg-ink text-paper hover:border-accent hover:bg-transparent hover:text-ink;
+  }
+
+  .btn-light {
+    @apply border-paper bg-paper text-ink hover:border-accent-light hover:bg-transparent hover:text-paper;
+  }
+
+  .btn-outline-light {
+    @apply border-paper/60 text-paper hover:border-accent-light hover:text-accent-light;
+  }
+
+  .btn-outline-dark {
+    @apply border-ink/70 text-ink hover:border-accent hover:text-accent;
+  }
+
+  /* Fließtext */
+  .prose-text {
+    @apply space-y-5 text-base leading-relaxed md:text-[1.0625rem];
+  }
+
+  /* Pfeil-Aufzählung */
+  .arrow-list > li {
+    @apply relative pl-6;
+  }
+
+  .arrow-list > li::before {
+    content: "";
+    @apply absolute top-[0.6em] left-0 h-1.5 w-1.5 rotate-45 border-t border-r border-accent;
+  }
+
+  /* Langtexte (Impressum, Datenschutz, AGB) */
+  .legal {
+    @apply max-w-3xl text-[0.975rem] leading-relaxed text-ink/85;
+  }
+  .legal h2 {
+    @apply mt-12 mb-4 font-serif text-xl tracking-wider text-ink;
+  }
+  .legal h3 {
+    @apply mt-8 mb-3 text-base font-bold text-ink;
+  }
+  .legal p,
+  .legal ul,
+  .legal ol {
+    @apply mb-4;
+  }
+  .legal ul {
+    @apply list-disc pl-6;
+  }
+  .legal ol {
+    @apply list-decimal pl-6;
+  }
+  .legal a {
+    @apply underline decoration-line underline-offset-4 hover:decoration-accent;
+  }
+}

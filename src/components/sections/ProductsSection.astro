@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import ProductCard from "../ProductCard.astro";
+import sebastianLogo from "../../assets/sebastian-professional-logo.png";
+import beratung from "../../assets/salon/beratung.jpg";
+---
+
+<section id="produkte" class="relative isolate overflow-hidden bg-night text-paper">
+  <Image
+    src={beratung}
+    alt=""
+    widths={[960, 1600]}
+    sizes="100vw"
+    class="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_30%] opacity-25"
+  />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-night/70 via-night/85 to-night"></div>
+
+  <div class="section">
+    <div class="container-content">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <SectionHeading kicker="Pflege für zuhause" title="Unsere Produkte" tone="dark" />
+          <Image src={sebastianLogo} alt="Sebastian Professional" width={300} class="mt-10 h-auto w-56 md:w-64" />
+        </div>
+        <div class="space-y-4 leading-relaxed text-paper/75">
+          <p>
+            Wir arbeiten mit den Produkten von Sebastian Professional – und du kannst sie bei uns auch für zuhause
+            kaufen. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          </p>
+          <p>Unser Leistungsspektrum wird dabei ideal durch unser Angebot an TOP Pflegeprodukten ergänzt.</p>
+        </div>
+      </div>
+
+      <div class="mt-16 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+        <ProductCard name="Produktname">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ProductCard>
+        <ProductCard name="Produktname">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ProductCard>
+        <ProductCard name="Produktname">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ProductCard>
+        <ProductCard name="Produktname">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ProductCard>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center gap-6 border-t border-white/10 pt-12 text-center">
+        <p class="font-serif text-lg tracking-[0.15em] uppercase">Lass dich im Salon beraten</p>
+        <a href="#kontakt" class="btn btn-light">Beratung anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>

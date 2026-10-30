@@ -1,0 +1,14 @@
+---
+/** Einzelne Preiszeile (Leistung + Preis). */
+interface Props {
+  service: string;
+  price: string;
+}
+
+const { service, price } = Astro.props;
+---
+
+<div class="flex items-baseline justify-between gap-6 py-3.5">
+  <dt class="text-[0.975rem]">{service}</dt>
+  <dd class="shrink-0 text-right font-serif text-[0.95rem] tracking-wider whitespace-nowrap">{price}</dd>
+</div>

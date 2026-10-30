@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "../SectionHeading.astro";
+import Watermark from "../Watermark.astro";
+import hoursImage from "../../assets/salon/kopfmassage.jpg";
+---
+
+<section id="oeffnungszeiten" class="relative overflow-hidden bg-paper">
+  <Watermark class="hidden lg:block -right-20 -bottom-32 h-[140%] text-ink/[0.035]" />
+  <div class="relative grid lg:grid-cols-[1fr_minmax(0,40%)]">
+    <div class="section">
+      <div class="max-w-xl lg:ml-auto lg:mr-8 xl:mr-16">
+        <SectionHeading kicker="Wann wir für dich da sind" title="Öffnungszeiten" class="mb-10" />
+        <div class="prose-text text-ink/80">
+          <p>
+            Wir arbeiten in einem flexiblen Vier-Tage-Rhythmus. In geraden Wochen bleibt unser Salon samstags
+            geschlossen, in ungeraden Wochen donnerstags – also immer im Wechsel. Unsere Öffnungszeiten sind flexibel,
+            aber in der Regel sind wir von 9 bis 18 Uhr für dich da, samstags von 8 bis 14 Uhr.
+          </p>
+        </div>
+
+        <dl class="mt-10 divide-y divide-line border-y border-line">
+          <div class="flex items-baseline justify-between gap-6 py-4">
+            <dt class="font-serif tracking-[0.15em] uppercase">In der Regel</dt>
+            <dd class="text-right">9 – 18 Uhr</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-6 py-4">
+            <dt class="font-serif tracking-[0.15em] uppercase">Samstag</dt>
+            <dd class="text-right">8 – 14 Uhr</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-6 py-4">
+            <dt class="font-serif tracking-[0.15em] uppercase">Geschlossen</dt>
+            <dd class="text-right">Donnerstag / Samstag<br class="sm:hidden" /> im wöchentlichen Wechsel</dd>
+          </div>
+        </dl>
+
+        <p class="mt-8 border-l-2 border-accent pl-5 leading-relaxed">
+          Termine in unserem Salon sind <strong class="font-bold">ausschließlich nach Vereinbarung</strong> möglich –
+          sprich uns an. Fragen zu unseren Öffnungszeiten? Zögere nicht, uns anzusprechen!
+        </p>
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+          <a href="#kontakt" class="btn btn-dark">Termin anfragen</a>
+          <a href="tel:+49284143970" class="btn btn-outline-dark">02841 43970</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative min-h-[26rem] lg:min-h-0">
+      <Image
+        src={hoursImage}
+        alt="Entspannende Kopfmassage beim Haarewaschen"
+        widths={[480, 720, 1067]}
+        sizes="(min-width: 1024px) 40vw, 100vw"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+    </div>
+  </div>
+</section>
