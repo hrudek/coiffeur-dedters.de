@@ -10,31 +10,47 @@ import type { ImageMetadata } from "astro";
 
 interface Props {
   name: string;
-  image: ImageMetadata;
-  alt: string;
+  /** Ohne Foto wird ein Monogramm (Initiale) als Platzhalter gezeigt */
+  image?: ImageMetadata;
+  alt?: string;
   /** Flags auf dem Foto, z. B. ["Inhaberin"] oder Spezialisierungen */
   tags?: string[];
 }
 
-const { name, image, alt, tags = [] } = Astro.props;
+const { name, image, alt = `Porträt von ${name}`, tags = [] } = Astro.props;
+const mediaClass =
+  "aspect-[2/3] w-full transition duration-700 group-hover:scale-[1.03] group-hover:blur-[2px] group-data-[open]:scale-[1.03] group-data-[open]:blur-[2px]";
 const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
 <article class="group flex flex-col" data-team-card>
   <div class="relative cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-anthracite" data-team-toggle-area>
-    <Image
-      src={image}
-      alt={alt}
-      widths={[360, 540, 720]}
-      sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw"
-      class="aspect-[2/3] w-full object-cover object-top transition duration-700 group-hover:scale-[1.03] group-hover:blur-[2px] group-data-[open]:scale-[1.03] group-data-[open]:blur-[2px]"
-    />
+    {
+      image ? (
+        <Image
+          src={image}
+          alt={alt}
+          widths={[360, 540, 720]}
+          sizes="(min-width: 1280px) 22rem, (min-width: 640px) 45vw, 90vw"
+          class={`${mediaClass} object-cover object-top`}
+        />
+      ) : (
+        <div
+          class={`${mediaClass} flex items-center justify-center bg-[radial-gradient(ellipse_at_50%_35%,#3a2e26_0%,#1c1714_55%,#0e0c0b_100%)]`}
+          aria-hidden="true"
+        >
+          <div class="flex h-32 w-32 items-center justify-center rounded-full border border-accent-light/40">
+            <span class="font-serif text-6xl leading-none text-accent-light/80">{name.charAt(0)}</span>
+          </div>
+        </div>
+      )
+    }
 
     {
       tags.length > 0 && (
         <ul class="absolute top-4 left-4 z-10 flex flex-wrap gap-2 pr-4">
           {tags.map((tag) => (
-            <li class="border border-accent-light/60 bg-night/60 px-3 py-1 font-serif text-[0.65rem] tracking-[0.25em] text-accent-light uppercase backdrop-blur">
+            <li class="tag-label border border-accent-light/60 bg-night/60 text-accent-light backdrop-blur">
               {tag}
             </li>
           ))}

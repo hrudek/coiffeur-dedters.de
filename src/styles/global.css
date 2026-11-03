@@ -79,6 +79,25 @@
     @apply mx-auto w-full max-w-6xl;
   }
 
+  /*
+   * Kleine Flags (z. B. auf den Team-Fotos): Versalien optisch exakt mittig.
+   * Cinzel hat eine hohe Oberlänge (976) und tiefe Unterlänge (372) bei Versalhöhe 700,
+   * dadurch sitzen Großbuchstaben im normalen Zeilenkasten nicht mittig.
+   * Rechts wird die Laufweite (tracking) des letzten Buchstabens ausgeglichen.
+   */
+  .tag-label {
+    @apply font-serif text-[0.65rem] leading-none tracking-[0.25em] uppercase;
+    padding: calc(0.5rem - 0.102em) calc(0.75rem - 0.25em) calc(0.5rem - 0.198em) 0.75rem;
+  }
+
+  @supports (text-box: trim-both cap alphabetic) {
+    .tag-label {
+      text-box: trim-both cap alphabetic;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
   /* Buttons: grundsätzlich Schwarz/Weiß */
   .btn {
     @apply inline-flex items-center justify-center gap-3 border px-7 py-3.5 font-serif text-sm tracking-[0.18em] uppercase transition-colors duration-300;
