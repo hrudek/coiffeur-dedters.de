@@ -1,7 +1,8 @@
 ---
 /**
  * Team-Karte: Hochformat-Porträt (2:3), darunter nur der Name.
- * Rolle/Spezialisierungen als kleine Flags auf dem Foto.
+ * Rolle/Spezialisierungen als kleine Flags unten links auf dem Foto (Gesichter bleiben frei),
+ * der Button für mehr Infos sitzt oben rechts. Beim Öffnen des Textes blenden die Flags aus.
  * Der Text (Slot) erscheint als Overlay über dem Foto:
  * Desktop beim Überfahren mit der Maus, mobil per Antippen, per Tastatur über den Button.
  */
@@ -48,7 +49,7 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
 
     {
       tags.length > 0 && (
-        <ul class="absolute top-4 left-4 z-10 flex flex-wrap gap-2 pr-4">
+        <ul class="absolute bottom-4 left-4 z-10 flex flex-col items-start gap-2 pr-4 transition-opacity duration-500 group-hover:opacity-0 group-data-[open]:opacity-0">
           {tags.map((tag) => (
             <li class="tag-label border border-accent-light/60 bg-night/60 text-accent-light backdrop-blur">
               {tag}
@@ -61,14 +62,14 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
     <!-- Overlay mit Text -->
     <div
       id={textId}
-      class="absolute inset-0 flex flex-col overflow-y-auto bg-gradient-to-t from-night via-night/90 to-night/70 px-6 pt-16 pb-16 text-sm leading-relaxed text-paper/85 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-data-[open]:opacity-100"
+      class="absolute inset-0 flex flex-col overflow-y-auto bg-gradient-to-t from-night via-night/90 to-night/70 px-6 pt-18 pb-6 text-sm leading-relaxed text-paper/85 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-data-[open]:opacity-100"
     >
       <div class="mt-auto"><slot /></div>
     </div>
 
     <button
       type="button"
-      class="absolute right-4 bottom-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-paper/40 bg-night/50 text-paper backdrop-blur transition-colors hover:border-accent-light hover:text-accent-light"
+      class="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-paper/40 bg-night/50 text-paper backdrop-blur transition-colors hover:border-accent-light hover:text-accent-light"
       aria-expanded="false"
       aria-controls={textId}
       data-team-toggle
@@ -77,7 +78,7 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
       <svg
         aria-hidden="true"
         viewBox="0 0 24 24"
-        class="h-4 w-4 transition-transform duration-300 group-data-[open]:rotate-45"
+        class="h-4 w-4 transition-transform duration-300 group-hover:rotate-45 group-data-[open]:rotate-45"
         fill="none"
         stroke="currentColor"
         stroke-width="1.5"><path d="M12 5v14M5 12h14"></path></svg
@@ -97,8 +98,20 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
   }
 
   cards.forEach((card) => {
-    // Antippen/Klicken irgendwo auf dem Foto (auch auf dem Button) schaltet um
-    card.querySelector("[data-team-toggle-area]")?.addEventListener("click", () => {
+    const area = card.querySelector<HTMLElement>("[data-team-toggle-area]");
+    if (!area) return;
+
+    // Art des Zeigegeräts beim letzten Drücken merken (mouse, touch, pen)
+    let pointerType = "";
+    area.addEventListener("pointerdown", (e) => (pointerType = e.pointerType));
+
+    // Antippen irgendwo auf dem Foto (auch auf dem Button) schaltet um.
+    // Mausklicks werden ignoriert – mit Maus öffnet sich der Text nur per Mouse-over.
+    // Tastatur (Enter/Leertaste auf dem Button) löst kein pointerdown aus und schaltet weiterhin um.
+    area.addEventListener("click", () => {
+      const isMouse = pointerType === "mouse";
+      pointerType = "";
+      if (isMouse) return;
       const open = !card.hasAttribute("data-open");
       cards.forEach((other) => other !== card && setOpen(other, false));
       setOpen(card, open);
