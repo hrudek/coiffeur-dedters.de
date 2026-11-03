@@ -26,7 +26,10 @@ const schema = {
     addressLocality: "Moers",
     addressCountry: "DE",
   },
-  founder: { "@type": "Person", name: "Wolfgang Dedters" },
+  founder: [
+    { "@type": "Person", name: "Wolfgang Dedters" },
+    { "@type": "Person", name: "Conny Dedters" },
+  ],
   employee: { "@type": "Person", name: "Justine Dedters", jobTitle: "Inhaberin, Friseurmeisterin" },
   sameAs: ["https://www.instagram.com/coiffeurdedters/", "https://facebook.com/coiffeur-dedters"],
   priceRange: "€€",
