@@ -25,7 +25,7 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
 ---
 
 <article class="group flex flex-col" data-team-card>
-  <div class="relative cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-anthracite" data-team-toggle-area>
+  <div class="@container relative cursor-pointer overflow-hidden rounded-sm border border-white/10 bg-anthracite" data-team-toggle-area>
     {
       image ? (
         <Image
@@ -59,17 +59,43 @@ const textId = `team-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.ra
       )
     }
 
-    <!-- Overlay mit Text -->
+    <!--
+      Overlay mit Text: ruhige, gleichmäßige Fläche mit feinem goldenen Innenrahmen,
+      Rollen als Kicker, feine Linie, dann der Fließtext. Gescrollt wird nur innerhalb des Rahmens.
+    -->
     <div
       id={textId}
-      class="absolute inset-0 flex flex-col overflow-y-auto bg-gradient-to-t from-night via-night/90 to-night/70 px-6 pt-18 pb-6 text-sm leading-relaxed text-paper/85 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-data-[open]:opacity-100"
+      class="absolute inset-0 bg-night/85 opacity-0 backdrop-blur-sm transition-opacity duration-500 group-hover:opacity-100 group-data-[open]:opacity-100"
     >
-      <div class="mt-auto"><slot /></div>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-2.5 border border-accent-light/25"></div>
+      <div
+        class="absolute inset-2.5 flex flex-col overflow-y-auto px-4 pt-12 pb-4 @[20rem]:px-5 @[20rem]:pt-12 @[20rem]:pb-5"
+      >
+        <div
+          class="relative my-auto translate-y-3 transition-transform duration-700 ease-out group-hover:translate-y-0 group-data-[open]:translate-y-0"
+        >
+          {
+            tags.length > 0 && (
+              <ul class="space-y-1 font-serif text-[0.65rem] leading-relaxed tracking-[0.25em] text-accent-light uppercase">
+                {tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            )
+          }
+          <span aria-hidden="true" class="mt-3 mb-4 block h-px w-10 bg-accent-light/60"></span>
+          <div
+            class="text-[0.8125rem] leading-[1.55] font-light @[20rem]:text-[0.9rem] @[20rem]:leading-[1.7] text-pretty hyphens-auto text-paper/90 [&_p+p]:mt-[0.7em]"
+          >
+            <slot />
+          </div>
+        </div>
+      </div>
     </div>
 
     <button
       type="button"
-      class="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-paper/40 bg-night/50 text-paper backdrop-blur transition-colors hover:border-accent-light hover:text-accent-light"
+      class="absolute top-5 right-5 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-paper/40 bg-night/50 text-paper backdrop-blur transition-colors hover:border-accent-light hover:text-accent-light"
       aria-expanded="false"
       aria-controls={textId}
       data-team-toggle
