@@ -8,7 +8,7 @@ import teamEmpfang from "../../assets/salon/team-empfang.jpg";
 import beratung from "../../assets/salon/beratung.jpg";
 import justineConny from "../../assets/salon/justine-conny.jpg";
 
-const tile = "h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]";
+const tile = "h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]";
 ---
 
 <section id="einblicke" class="section bg-night text-paper">
@@ -23,7 +23,7 @@ const tile = "h-full w-full object-cover transition-transform duration-700 group
         <Image src={kopfmassage} alt="Entspannende Kopfmassage mit Shampoo" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
       </figure>
       <figure class="group row-span-2 overflow-hidden">
-        <Image src={teamStudio} alt="Das Team im Studio, Justine sitzt vorne auf dem Friseurstuhl" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={`${tile} object-top`} />
+        <Image src={teamStudio} alt="Das Team im Studio, Justine sitzt vorne auf dem Friseurstuhl" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
       </figure>
       <figure class="group row-span-2 overflow-hidden">
         <Image src={beratung} alt="Justine berät eine Kundin mit einem Pflegeprodukt" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
@@ -32,7 +32,7 @@ const tile = "h-full w-full object-cover transition-transform duration-700 group
         <Image src={teamEmpfang} alt="Das Team stößt im Salon vor dem Regal mit „Welcome“-Schriftzug an" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" class={tile} />
       </figure>
       <figure class="group row-span-2 overflow-hidden">
-        <Image src={justineConny} alt="Justine und Conny Dedters vor dem Roll-up „Gutes Aussehen ist Kopfsache“" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={`${tile} object-[50%_30%]`} />
+        <Image src={justineConny} alt="Justine und Conny Dedters vor dem Roll-up „Gutes Aussehen ist Kopfsache“" widths={[360, 540]} sizes="(min-width: 768px) 25vw, 50vw" class={tile} />
       </figure>
     </div>
 
