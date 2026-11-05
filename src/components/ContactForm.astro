@@ -45,7 +45,7 @@ const label = "block font-serif text-xs tracking-[0.2em] uppercase";
       name="nachricht"
       rows="5"
       required
-      placeholder="Wobei dürfen wir dir helfen? Gern auch mit Wunschtermin."
+      placeholder="Wobei dürfen wir dir helfen? Für Termine ruf uns bitte an oder schreib uns per WhatsApp."
       class={`${field} resize-y`}></textarea>
   </div>
 
@@ -67,10 +67,12 @@ const label = "block font-serif text-xs tracking-[0.2em] uppercase";
   </div>
 
   <div class="flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
-    <p class="text-sm text-stone">
-      <span class="text-accent" aria-hidden="true">*</span> Pflichtfeld. Terminwünsche sind erst nach unserer Rückmeldung
-      verbindlich.
-    </p>
+    <p class="text-sm text-stone"><span class="text-accent" aria-hidden="true">*</span> Pflichtfeld</p>
     <button type="submit" class="btn btn-dark shrink-0">Nachricht senden</button>
   </div>
+
+  <p class="-mt-3 text-sm text-stone">
+    Keine Terminanfragen über dieses Formular – Termine bitte telefonisch oder per WhatsApp unter{" "}
+    <a href="tel:+49284143970" class="whitespace-nowrap text-ink underline decoration-line underline-offset-4 hover:decoration-accent">02841 43970</a>.
+  </p>
 </form>

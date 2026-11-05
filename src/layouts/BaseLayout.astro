@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import SiteNav from "../components/SiteNav.astro";
 import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import ogImage from "../assets/team/team-salon.jpg";
 import { getImage } from "astro:assets";
 
@@ -15,7 +16,7 @@ interface Props {
 const defaultTitle = "Coiffeur Dedters – Friseur in Moers | Balayage & AirTouch";
 const {
   title,
-  description = "Coiffeur Dedters – dein Friseursalon in Moers. Spezialistinnen für Balayage & AirTouch in Moers, Schnitt, Farbe und Pflege mit Sebastian Professional. Termine nach Vereinbarung.",
+  description = "Coiffeur Dedters – dein Friseursalon in Moers. Spezialistinnen für Balayage & AirTouch in Moers, Schnitt, Farbe und Pflege mit Sebastian Professional. Termine nach Vereinbarung per Telefon oder WhatsApp.",
   noindex = false,
 } = Astro.props;
 
@@ -65,5 +66,6 @@ const ogUrl = new URL(og.src, Astro.site);
       </main>
       <Footer />
     </div>
+    <WhatsAppFloat />
   </body>
 </html>
