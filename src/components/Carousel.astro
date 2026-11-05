@@ -1,0 +1,330 @@
+---
+/**
+ * Endloses Karussell – nur ab Tablet-Breite (md).
+ * Auf dem Handy werden die Slides ganz normal untereinander angezeigt.
+ *
+ * Jedes direkte Kind im Slot ist ein Slide (Breite über die Klasse `carousel-slide`).
+ * Für den Endlos-Effekt werden die Slides links und rechts geklont; nach jeder Animation
+ * wird unsichtbar auf das passende Original zurückgesprungen.
+ * Läuft automatisch weiter, pausiert bei Hover/Fokus und außerhalb des Sichtbereichs.
+ */
+interface Props {
+  label: string;
+  /** Intervall für das automatische Weiterspringen in ms (0 = aus). */
+  interval?: number;
+  class?: string;
+  id?: string;
+}
+
+const { label, interval = 7000, class: className, id } = Astro.props;
+---
+
+<div
+  id={id}
+  class:list={["carousel", className]}
+  data-carousel
+  data-interval={interval}
+  role="region"
+  aria-roledescription="Karussell"
+  aria-label={label}
+>
+  <div class="carousel-viewport">
+    <div data-carousel-track class="carousel-track">
+      <slot />
+    </div>
+  </div>
+
+  <div class="carousel-controls mt-8 items-center justify-between gap-6">
+    <div data-carousel-dots class="flex items-center gap-2"></div>
+    <div class="flex gap-3">
+      <button type="button" data-carousel-prev class="carousel-arrow" aria-label="Vorherige Leistung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M15 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+      <button type="button" data-carousel-next class="carousel-arrow" aria-label="Nächste Leistung">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Handy: einfach untereinander */
+  .carousel-track {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .carousel-controls {
+    display: none;
+  }
+
+  /* Ab Tablet: Karussell mit zwei sichtbaren Slides */
+  @media (min-width: 768px) {
+    .carousel-viewport {
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      flex-direction: row;
+      will-change: transform;
+    }
+
+    .carousel-track[data-animate] {
+      transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .carousel :global(.carousel-slide) {
+      /* zwei Slides nebeneinander, abzüglich gap (1.5rem) */
+      flex: 0 0 calc((100% - 1.5rem) / 2);
+    }
+
+    .carousel-controls {
+      display: flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track[data-animate] {
+      transition: none;
+    }
+  }
+
+  .carousel-arrow {
+    display: inline-flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 70%, transparent);
+    color: var(--color-ink);
+    transition:
+      color 0.3s,
+      border-color 0.3s;
+  }
+
+  .carousel-arrow:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .carousel :global([data-carousel-dot]) {
+    position: relative;
+    height: 2px;
+    width: 1.75rem;
+    background: var(--color-line);
+    transition:
+      background-color 0.3s,
+      width 0.3s;
+  }
+
+  .carousel :global([data-carousel-dot][aria-current="true"]) {
+    width: 3rem;
+    background: var(--color-accent);
+  }
+
+  /* größere Klickfläche für die dünnen Striche */
+  .carousel :global([data-carousel-dot])::after {
+    content: "";
+    position: absolute;
+    inset: -0.75rem -0.25rem;
+  }
+</style>
+
+<script>
+  const desktop = window.matchMedia("(min-width: 768px)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]")!;
+    const dotsEl = root.querySelector<HTMLElement>("[data-carousel-dots]")!;
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]")!;
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]")!;
+    const originals = Array.from(track.children) as HTMLElement[];
+    const count = originals.length;
+    const interval = Number(root.dataset.interval) || 0;
+
+    // Position im Track inkl. Klone: [Klone | Originale | Klone] → Originale beginnen bei `count`
+    let pos = count;
+    let active = false;
+    let busy = false;
+    let timer: number | undefined;
+    let paused = false;
+    let visible = false;
+
+    function makeClone(slide: HTMLElement) {
+      const clone = slide.cloneNode(true) as HTMLElement;
+      clone.dataset.carouselClone = "";
+      clone.setAttribute("aria-hidden", "true");
+      clone.inert = true;
+      return clone;
+    }
+
+    function step() {
+      const slides = track.children;
+      return (slides[1] as HTMLElement).offsetLeft - (slides[0] as HTMLElement).offsetLeft;
+    }
+
+    function render(animate: boolean) {
+      track.toggleAttribute("data-animate", animate && !reduceMotion.matches);
+      track.style.transform = `translateX(${-pos * step()}px)`;
+      const current = (((pos - count) % count) + count) % count;
+      dotsEl.querySelectorAll("button").forEach((dot, i) => dot.setAttribute("aria-current", String(i === current)));
+    }
+
+    // Nach der Animation von einem Klon unsichtbar auf das entsprechende Original springen
+    let settleTimer: number | undefined;
+
+    function normalize() {
+      window.clearTimeout(settleTimer);
+      busy = false;
+      if (pos >= count * 2 || pos < count) {
+        pos = count + ((((pos - count) % count) + count) % count);
+        render(false);
+      }
+    }
+
+    function goTo(target: number) {
+      if (!active) return;
+      // Schnelles Klicken: laufende Animation abschließen und von der normalisierten Position weitergehen
+      if (busy) {
+        const delta = target - pos;
+        normalize();
+        void track.offsetWidth; // Reflow, damit ein Sprung ohne Animation greift
+        target = pos + delta;
+      }
+      pos = target;
+      if (reduceMotion.matches) {
+        render(false);
+        normalize();
+        return;
+      }
+      busy = true;
+      render(true);
+      // Absicherung, falls `transitionend` ausbleibt (z. B. Tab im Hintergrund)
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(normalize, 800);
+    }
+
+    track.addEventListener("transitionend", (e) => {
+      if (e.target === track && e.propertyName === "transform" && busy) normalize();
+    });
+
+    function setup() {
+      if (active || count < 2) return;
+      active = true;
+      track.prepend(...originals.map(makeClone));
+      track.append(...originals.map(makeClone));
+      dotsEl.replaceChildren(
+        ...originals.map((_, i) => {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.dataset.carouselDot = "";
+          dot.setAttribute("aria-label", `Zu Leistung ${i + 1} von ${count}`);
+          dot.addEventListener("click", () => {
+            goTo(count + i);
+            start();
+          });
+          return dot;
+        }),
+      );
+      pos = count;
+      render(false);
+      start();
+    }
+
+    function teardown() {
+      if (!active) return;
+      active = false;
+      busy = false;
+      stop();
+      track.querySelectorAll("[data-carousel-clone]").forEach((el) => el.remove());
+      track.removeAttribute("data-animate");
+      track.style.transform = "";
+      dotsEl.replaceChildren();
+    }
+
+    function stop() {
+      window.clearInterval(timer);
+      timer = undefined;
+    }
+
+    function start() {
+      stop();
+      if (!active || !interval || paused || !visible || reduceMotion.matches) return;
+      timer = window.setInterval(() => goTo(pos + 1), interval);
+    }
+
+    prev.addEventListener("click", () => {
+      goTo(pos - 1);
+      start();
+    });
+    next.addEventListener("click", () => {
+      goTo(pos + 1);
+      start();
+    });
+
+    // Tastatur
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") goTo(pos + 1);
+      else if (e.key === "ArrowLeft") goTo(pos - 1);
+      else return;
+      e.preventDefault();
+    });
+
+    // Seitliches Wischen auf dem Trackpad
+    let wheelLock = 0;
+    root.addEventListener(
+      "wheel",
+      (e) => {
+        if (!active || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+        e.preventDefault();
+        const now = Date.now();
+        if (Math.abs(e.deltaX) < 10 || now < wheelLock) return;
+        wheelLock = now + 800;
+        goTo(pos + (e.deltaX > 0 ? 1 : -1));
+      },
+      { passive: false },
+    );
+
+    // Pausieren, solange jemand mit dem Karussell interagiert
+    root.addEventListener("mouseenter", () => {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("mouseleave", () => {
+      paused = false;
+      start();
+    });
+    root.addEventListener("focusin", () => {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("focusout", (e) => {
+      if (root.contains(e.relatedTarget as Node | null)) return;
+      paused = false;
+      start();
+    });
+
+    // Nur laufen, wenn das Karussell sichtbar ist
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        start();
+      },
+      { threshold: 0.4 },
+    ).observe(root);
+
+    // Bei Größenänderung Position ohne Animation neu setzen
+    new ResizeObserver(() => active && render(false)).observe(root);
+
+    const sync = () => (desktop.matches ? setup() : teardown());
+    desktop.addEventListener("change", sync);
+    reduceMotion.addEventListener("change", start);
+    sync();
+  });
+</script>

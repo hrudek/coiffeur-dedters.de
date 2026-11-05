@@ -11,28 +11,32 @@ interface Props {
   cta: string;
   href?: string;
   imagePosition?: string;
+  class?: string;
 }
 
-const { kicker, title, image, alt, cta, href = "#kontakt", imagePosition = "top" } = Astro.props;
+const { kicker, title, image, alt, cta, href = "#kontakt", imagePosition = "top", class: className } = Astro.props;
 ---
 
-<article class="group relative isolate flex min-h-[32rem] flex-col justify-end overflow-hidden bg-night text-paper">
+<article
+  class:list={["group relative isolate flex min-h-[32rem] flex-col overflow-hidden bg-night text-paper", className]}
+>
   <Image
     src={image}
     alt={alt}
     widths={[480, 720, 960]}
-    sizes="(min-width: 1024px) 30vw, 95vw"
+    sizes="(min-width: 1200px) 36rem, (min-width: 768px) 50vw, 90vw"
     class="absolute inset-0 -z-10 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
     style={`object-position: ${imagePosition}`}
   />
   <div class="absolute inset-0 -z-10 bg-gradient-to-t from-night via-night/75 to-night/10"></div>
-  <div class="p-8 md:p-10">
+  <!-- Fester Abstand oben: Überschriften stehen in allen Karten auf gleicher Höhe, Button sitzt immer unten -->
+  <div class="flex flex-1 flex-col px-8 pt-40 pb-8 md:px-10 md:pt-44 md:pb-10">
     <p class="mb-3 font-serif text-xs tracking-[0.35em] text-accent-light uppercase">{kicker}</p>
     <h3 class="font-serif text-3xl tracking-wider uppercase md:text-4xl">{title}</h3>
     <span aria-hidden="true" class="my-5 block h-px w-14 bg-accent-light"></span>
-    <div class="max-w-md text-[0.975rem] leading-relaxed text-paper/80">
+    <div class="mb-7 max-w-md text-[0.975rem] leading-relaxed text-paper/80">
       <slot />
     </div>
-    <a href={href} class="btn btn-outline-light mt-7">{cta}</a>
+    <a href={href} class="btn btn-outline-light mt-auto self-start">{cta}</a>
   </div>
 </article>
