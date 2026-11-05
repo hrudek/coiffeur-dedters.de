@@ -6,6 +6,7 @@ import PriceList from "../PriceList.astro";
 import PriceRow from "../PriceRow.astro";
 import balayageImage from "../../assets/team/mitarbeiterin-1.jpg";
 import airtouchImage from "../../assets/salon/foehnen.jpg";
+import extensionsImage from "../../assets/team/mitarbeiterin-2.jpg";
 import serviceImage from "../../assets/salon/haarwaesche.jpg";
 ---
 
@@ -13,19 +14,21 @@ import serviceImage from "../../assets/salon/haarwaesche.jpg";
   <div class="container-content">
     <SectionHeading kicker="Was wir für dich tun" title="Leistungen & Preise" />
 
-    <!-- Highlights: Balayage & AirTouch -->
-    <div id="balayage-airtouch" class="mt-14 grid gap-6 md:grid-cols-2">
+    <!-- Highlights: Balayage, AirTouch & Extensions -->
+    <div id="balayage-airtouch" class="mt-14 grid gap-6 lg:grid-cols-3">
       <HighlightCard
         kicker="Unsere Spezialität"
         title="Balayage"
         image={balayageImage}
         alt="Lange, mehrfarbig blonde Wellen"
         imagePosition="50% 25%"
-        cta="Termin vereinbaren"
+        cta="Beratung anfordern"
       >
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sanfte, natürliche Farbverläufe, frei Hand gemalt –
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Natürlich, lebendig und individuell – bei der Balayage-Technik werden sanfte Farbreflexe freihändig in dein Haar
+          gemalt. So entstehen weiche, fließende Übergänge und ein besonders natürliches Farbergebnis, wie von der Sonne
+          geküsst. Das Beste daran: Die Farbe wächst harmonisch heraus, ganz ohne festen Rhythmus für deinen nächsten
+          Friseurbesuch.
         </p>
       </HighlightCard>
       <HighlightCard
@@ -34,11 +37,29 @@ import serviceImage from "../../assets/salon/haarwaesche.jpg";
         image={airtouchImage}
         alt="Föhnen im Salon, im Spiegel gesehen"
         imagePosition="50% 40%"
-        cta="Beratung vereinbaren"
+        cta="Beratung anfordern"
       >
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Weiche Übergänge und ein strahlendes Ergebnis – ut enim
-          ad minim veniam, quis nostrud exercitation ullamco.
+          Eine innovative Technik für besonders sanfte Aufhellungen und fließende Farbverläufe. Durch die präzise Anwendung
+          entstehen natürliche, weiche Übergänge und ein strahlendes Farbergebnis – bei möglichst schonender Behandlung
+          deines Haares.
+        </p>
+      </HighlightCard>
+      <HighlightCard
+        kicker="Unsere Spezialität"
+        title="Extensions"
+        image={extensionsImage}
+        alt="Porträt einer Mitarbeiterin mit langen, rotbraunen Haaren"
+        imagePosition="50% 25%"
+        cta="Beratung anfordern"
+      >
+        <p>
+          Ob mehr Fülle oder traumhaft langes Haar – mit unseren hochwertigen Tape-Extensions aus Echthaar erfüllen wir
+          deine Haarwünsche.
+        </p>
+        <p class="mt-3">
+          Dank hauchdünner, nahezu unsichtbarer Verbindungen sorgen wir für natürliches Volumen, zusätzliche Länge und ein
+          harmonisches Ergebnis, das sich perfekt in dein Eigenhaar einfügt.
         </p>
       </HighlightCard>
     </div>
@@ -62,6 +83,7 @@ import serviceImage from "../../assets/salon/haarwaesche.jpg";
           <PriceList title="Farbe & Techniken">
             <PriceRow service="Balayage" price="auf Anfrage" />
             <PriceRow service="AirTouch" price="auf Anfrage" />
+            <PriceRow service="Extensions" price="auf Anfrage" />
           </PriceList>
           <PriceList title="Kosmetik">
             <PriceRow service="Augenbrauen zupfen" price="ab 5,50 €" />
